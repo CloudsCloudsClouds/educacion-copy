@@ -4,6 +4,8 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\StudentProgressDataResource\Pages;
 use App\Filament\Resources\StudentProgressDataResource\RelationManagers;
+use App\Models\CourseContent;
+use App\Models\StudentProgress;
 use App\Models\StudentProgressData;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -23,12 +25,14 @@ class StudentProgressDataResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('student_progress_id')
+                Forms\Components\Select::make('student_progress_id')
+                    ->options(StudentProgress::all()->pluck('last_accessed_content_id', 'id'))
                     ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('content_id')
+                    ->searchable(),
+                Forms\Components\Select::make('content_id')
+                    ->options(CourseContent::all()->pluck('title', 'id'))
                     ->required()
-                    ->numeric(),
+                    ->searchable(),
                 Forms\Components\Textarea::make('completed_content')
                     ->required()
                     ->columnSpanFull(),
