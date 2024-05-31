@@ -16,3 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+use App\Http\Controllers\StudentReportExportController;
+
+Route::get('/export-student-report', [StudentReportExportController::class, 'exportPdf'])->name('export-student-report');

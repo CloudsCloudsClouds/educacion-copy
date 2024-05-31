@@ -62,7 +62,7 @@ class StudentResource extends Resource
                     ->maxValue(999),
                 Forms\Components\DatePicker::make('birth_date')
                     ->required()
-                    ->set_time_limit(now()),
+                    ->before(now()),
                 Forms\Components\TextInput::make('institution_code')
                     ->required()
                     ->numeric(),
