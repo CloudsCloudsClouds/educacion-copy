@@ -21,12 +21,12 @@ class AssessmentReport extends Report
                     ->schema([
                         Header\Layout\HeaderColumn::make()
                             ->schema([
-                                Text::make("Assessments Report")
+                                Text::make("Informe de Evaluaciones")
                                     ->title()
                                     ->primary(),
-                                Text::make("A report displaying assessments data")
+                                Text::make("Un informe que muestra los datos de las evaluaciones")
                                     ->subtitle(),
-                                Text::make("Generated on: " . now()->format("d/m/Y H:i:s"))
+                                Text::make("Generado el: " . now()->format("d/m/Y H:i:s"))
                                     ->subtitle(),
                             ])->alignCenter(),
                     ]),
@@ -39,22 +39,22 @@ class AssessmentReport extends Report
             ->schema([
                 Body\Layout\BodyColumn::make()
                     ->schema([
-                        Text::make("Assessments List")
+                        Text::make("Lista de Evaluaciones")
                             ->fontXl()
                             ->fontBold()
                             ->primary(),
                         Body\Table::make()
                             ->columns([
                                 Body\TextColumn::make("type")
-                                    ->label("Type"),
+                                    ->label("Tipo"),
                                 Body\TextColumn::make("score")
-                                    ->label("Score"),
+                                    ->label("Puntuación"),
                                 Body\TextColumn::make("student.first_name")
-                                    ->label("Student First Name"),
+                                    ->label("Nombre del Estudiante"),
                                 Body\TextColumn::make("student.last_name")
-                                    ->label("Student Last Name"),
+                                    ->label("Apellido del Estudiante"),
                                 Body\TextColumn::make("courseContent.title")
-                                    ->label("Course Title"),
+                                    ->label("Título del Curso"),
                             ])
                             ->data(
                                 function (?array $filters) {
@@ -72,7 +72,7 @@ class AssessmentReport extends Report
     {
         return $footer
             ->schema([
-                Text::make("End of Report")
+                Text::make("Fin del Informe")
                     ->fontSm()
                     ->secondary(),
             ]);

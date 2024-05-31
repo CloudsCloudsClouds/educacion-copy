@@ -21,12 +21,12 @@ class CourseReferenceReport extends Report
                     ->schema([
                         Header\Layout\HeaderColumn::make()
                             ->schema([
-                                Text::make("Course References Report")
+                                Text::make("Informe de Referencias de Curso")
                                     ->title()
                                     ->primary(),
-                                Text::make("A report displaying course references data")
+                                Text::make("Un informe que muestra los datos de las referencias del curso")
                                     ->subtitle(),
-                                Text::make("Generated on: " . now()->format("d/m/Y H:i:s"))
+                                Text::make("Generado el: " . now()->format("d/m/Y H:i:s"))
                                     ->subtitle(),
                             ])->alignCenter(),
                     ]),
@@ -39,18 +39,18 @@ class CourseReferenceReport extends Report
             ->schema([
                 Body\Layout\BodyColumn::make()
                     ->schema([
-                        Text::make("Course References List")
+                        Text::make("Lista de Referencias de Curso")
                             ->fontXl()
                             ->fontBold()
                             ->primary(),
                         Body\Table::make()
                             ->columns([
                                 Body\TextColumn::make("title")
-                                    ->label("Title"),
+                                    ->label("Título"),
                                 Body\TextColumn::make("description")
-                                    ->label("Description"),
+                                    ->label("Descripción"),
                                 Body\TextColumn::make("courseContent.title")
-                                    ->label("Course Title"),
+                                    ->label("Título del Curso"),
                             ])
                             ->data(
                                 function (?array $filters) {
@@ -68,7 +68,7 @@ class CourseReferenceReport extends Report
     {
         return $footer
             ->schema([
-                Text::make("Fin de reporte")
+                Text::make("Fin del Informe")
                     ->fontSm()
                     ->secondary(),
             ]);

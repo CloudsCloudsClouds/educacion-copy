@@ -6,13 +6,9 @@ use App\Models\Student;
 use EightyNine\Reports\Components\Text;
 use EightyNine\Reports\Report;
 use EightyNine\Reports\Components\Body;
-use EightyNine\Reports\Components\Component;
 use EightyNine\Reports\Components\Footer;
 use EightyNine\Reports\Components\Header;
-use Filament\Actions\StaticAction;
-use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Form;
-use Filament\Tables\Columns\TextColumn;
 use Malzariey\FilamentDaterangepickerFilter\Fields\DateRangePicker;
 
 class StudentReport extends Report
@@ -25,12 +21,12 @@ class StudentReport extends Report
                     ->schema([
                         Header\Layout\HeaderColumn::make()
                             ->schema([
-                                Text::make("Student Report")
+                                Text::make("Informe de Estudiantes")
                                     ->title()
                                     ->primary(),
-                                Text::make("A simple report displaying student data")
+                                Text::make("Un informe simple que muestra los datos de los estudiantes")
                                     ->subtitle(),
-                                Text::make("Generated on: " . now()->format("d/m/Y H:i:s"))
+                                Text::make("Generado el: " . now()->format("d/m/Y H:i:s"))
                                     ->subtitle(),
                             ])->alignCenter(),
                     ]),
@@ -43,24 +39,24 @@ class StudentReport extends Report
             ->schema([
                 Body\Layout\BodyColumn::make()
                     ->schema([
-                        Text::make("Student List")
+                        Text::make("Lista de Estudiantes")
                             ->fontXl()
                             ->fontBold()
                             ->primary(),
                         Body\Table::make()
                             ->columns([
                                 Body\TextColumn::make("first_name")
-                                    ->label("First Name"),
+                                    ->label("Nombre"),
                                 Body\TextColumn::make("last_name")
-                                    ->label("Last Name"),
+                                    ->label("Apellido"),
                                 Body\TextColumn::make("email")
-                                    ->label("Email"),
+                                    ->label("Correo Electrónico"),
                                 Body\TextColumn::make("course")
-                                    ->label("Course"),
+                                    ->label("Curso"),
                                 Body\TextColumn::make("age")
-                                    ->label("Age"),
+                                    ->label("Edad"),
                                 Body\TextColumn::make("birth_date")
-                                    ->label("Birth Date")
+                                    ->label("Fecha de Nacimiento")
                                     ->dateTime(),
                             ])
                             ->data(
@@ -79,7 +75,7 @@ class StudentReport extends Report
     {
         return $footer
             ->schema([
-                Text::make("End of Report")
+                Text::make("Fin del Informe")
                     ->fontSm()
                     ->secondary(),
             ]);
@@ -90,9 +86,8 @@ class StudentReport extends Report
         return $form
             ->schema([
                 DateRangePicker::make("birth_date")
-                    ->label("Birth Date")
-                    ->placeholder("Select a date range"),
-
+                    ->label("Fecha de Nacimiento")
+                    ->placeholder("Selecciona un rango de fechas"),
             ]);
     }
 }
