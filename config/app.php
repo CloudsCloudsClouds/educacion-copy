@@ -1,5 +1,6 @@
 <?php
 
+use App\Faker\CourseProvider;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 

@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CourseResource\Pages;
-use App\Filament\Resources\CourseResource\RelationManagers;
 use App\Models\Course;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -19,22 +18,34 @@ class CourseResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    // Añadir título en español para el recurso
+    protected static ?string $navigationLabel = 'Cursos';
+    protected static ?string $navigationGroup = 'Gestión de Cursos';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('title')
+                    ->label('Título')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->rules(['string', 'max:255']),
                 Forms\Components\TextInput::make('subject')
+                    ->label('Asignatura')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->rules(['string', 'max:255']),
                 Forms\Components\Textarea::make('description')
+                    ->label('Descripción')
                     ->required()
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->rules(['string']),
                 Forms\Components\TextInput::make('status')
+                    ->label('Estado')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->rules(['string', 'max:255']),
             ]);
     }
 
@@ -43,35 +54,41 @@ class CourseResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('title')
+                    ->label('Título')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('subject')
+                    ->label('Asignatura')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('status')
+                    ->label('Estado')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Creado el')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Actualizado el')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('deleted_at')
+                    ->label('Eliminado el')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\TrashedFilter::make(),
+                Tables\Filters\TrashedFilter::make()->label('Ver eliminados'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->label('Editar'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()->label('Eliminar seleccionados'),
+                    Tables\Actions\ForceDeleteBulkAction::make()->label('Eliminar permanentemente seleccionados'),
+                    Tables\Actions\RestoreBulkAction::make()->label('Restaurar seleccionados'),
                 ]),
             ]);
     }
@@ -79,7 +96,7 @@ class CourseResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            // Agregar relaciones si es necesario
         ];
     }
 

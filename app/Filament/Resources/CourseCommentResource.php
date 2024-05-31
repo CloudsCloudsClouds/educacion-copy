@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CourseCommentResource\Pages;
-use App\Filament\Resources\CourseCommentResource\RelationManagers;
 use App\Models\Course;
 use App\Models\CourseComment;
 use App\Models\Student;
@@ -21,19 +20,26 @@ class CourseCommentResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    // Agregar título en español para el recurso
+    protected static ?string $navigationLabel = 'Comentarios del Curso';
+    protected static ?string $navigationGroup = 'Gestión de Cursos';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\Select::make('course_id')
+                    ->label('Curso')
                     ->required()
                     ->options(Course::all()->pluck('title', 'id'))
                     ->searchable(),
                 Forms\Components\Select::make('student_id')
+                    ->label('Estudiante')
                     ->required()
                     ->options(Student::all()->pluck('ci', 'id'))
                     ->searchable(),
                 Forms\Components\Textarea::make('review_text')
+                    ->label('Texto del Comentario')
                     ->required()
                     ->columnSpanFull(),
             ]);
@@ -44,16 +50,20 @@ class CourseCommentResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('course_id')
+                    ->label('Curso')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('student_id')
+                    ->label('Estudiante')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Creado el')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Actualizado el')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -62,11 +72,11 @@ class CourseCommentResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->label('Editar'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()->label('Eliminar'),
                 ]),
             ]);
     }

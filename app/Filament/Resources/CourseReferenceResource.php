@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CourseReferenceResource\Pages;
-use App\Filament\Resources\CourseReferenceResource\RelationManagers;
 use App\Models\CourseContent;
 use App\Models\CourseReference;
 use Filament\Forms;
@@ -20,21 +19,33 @@ class CourseReferenceResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    // Añadir título en español para el recurso
+    protected static ?string $navigationLabel = 'Referencias de Curso';
+    protected static ?string $navigationGroup = 'Gestión de Cursos';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('title')
+                    ->label('Título')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->rules(['string', 'max:255']),
                 Forms\Components\Textarea::make('description')
+                    ->label('Descripción')
                     ->required()
-                    ->columnSpanFull(),
-                Forms\Components\FileUpload::make('text'),
+                    ->columnSpanFull()
+                    ->rules(['string']),
+                Forms\Components\FileUpload::make('text')
+                    ->label('Archivo')
+                    ->rules(['file']),
                 Forms\Components\Select::make('course_content_id')
+                    ->label('Contenido del Curso')
                     ->required()
                     ->options(CourseContent::all()->pluck('title', 'id'))
-                    ->searchable(),
+                    ->searchable()
+                    ->rules(['exists:course_contents,id']),
             ]);
     }
 
@@ -43,35 +54,40 @@ class CourseReferenceResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('title')
+                    ->label('Título')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('text'),
+                Tables\Columns\TextColumn::make('text')
+                    ->label('Archivo'),
                 Tables\Columns\TextColumn::make('course_content_id')
-                    ->numeric()
+                    ->label('Contenido del Curso')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Creado el')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Actualizado el')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('deleted_at')
+                    ->label('Eliminado el')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\TrashedFilter::make(),
+                Tables\Filters\TrashedFilter::make()->label('Ver eliminados'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->label('Editar'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()->label('Eliminar seleccionados'),
+                    Tables\Actions\ForceDeleteBulkAction::make()->label('Eliminar permanentemente seleccionados'),
+                    Tables\Actions\RestoreBulkAction::make()->label('Restaurar seleccionados'),
                 ]),
             ]);
     }
@@ -79,7 +95,7 @@ class CourseReferenceResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            // Agregar relaciones si es necesario
         ];
     }
 

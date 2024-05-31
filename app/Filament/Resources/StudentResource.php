@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\StudentResource\Pages;
-use App\Filament\Resources\StudentResource\RelationManagers;
 use App\Models\Student;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -18,54 +17,84 @@ class StudentResource extends Resource
     protected static ?string $model = Student::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    
+    // Añadir título en español para el recurso
+    protected static ?string $navigationLabel = 'Estudiantes';
+    protected static ?string $navigationGroup = 'Gestión de Estudiantes';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('first_name')
+                    ->label('Nombre')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->rules(['string', 'max:255']),
                 Forms\Components\TextInput::make('last_name')
+                    ->label('Apellido')
                     ->maxLength(255)
-                    ->default(null),
+                    ->default(null)
+                    ->rules(['nullable', 'string', 'max:255']),
                 Forms\Components\TextInput::make('second_name')
+                    ->label('Segundo Nombre')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('middle_name')
                     ->maxLength(255)
-                    ->default(null),
+                    ->rules(['string', 'max:255']),
+                Forms\Components\TextInput::make('middle_name')
+                    ->label('Segundo Apellido')
+                    ->maxLength(255)
+                    ->default(null)
+                    ->rules(['nullable', 'string', 'max:255']),
                 Forms\Components\TextInput::make('email')
+                    ->label('Correo Electrónico')
                     ->email()
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->rules(['email', 'max:255']),
                 Forms\Components\TextInput::make('password')
+                    ->label('Contraseña')
                     ->password()
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->rules(['string', 'max:255']),
                 Forms\Components\TextInput::make('rude')
+                    ->label('RUDE')
                     ->required()
-                    ->maxLength(8),
+                    ->maxLength(8)
+                    ->rules(['string', 'max:8']),
                 Forms\Components\TextInput::make('ci')
+                    ->label('CI')
                     ->required()
-                    ->maxLength(12),
+                    ->maxLength(12)
+                    ->rules(['string', 'max:12']),
                 Forms\Components\TextInput::make('direction')
+                    ->label('Dirección')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->rules(['string', 'max:255']),
                 Forms\Components\TextInput::make('course')
+                    ->label('Curso')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->rules(['string', 'max:255']),
                 Forms\Components\TextInput::make('age')
+                    ->label('Edad')
                     ->required()
                     ->numeric()
                     ->minValue(4)
-                    ->maxValue(999),
+                    ->maxValue(99)
+                    ->rules(['integer', 'min:4', 'max:99']),
                 Forms\Components\DatePicker::make('birth_date')
+                    ->label('Fecha de Nacimiento')
                     ->required()
-                    ->before(now()),
+                    ->before(now())
+                    ->rules(['date', 'before:today']),
                 Forms\Components\TextInput::make('institution_code')
+                    ->label('Código de Institución')
                     ->required()
-                    ->numeric(),
+                    ->numeric()
+                    ->rules(['integer']),
             ]);
     }
 
@@ -74,56 +103,71 @@ class StudentResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('first_name')
+                    ->label('Nombre')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('last_name')
+                    ->label('Apellido')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('second_name')
+                    ->label('Segundo Nombre')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('middle_name')
+                    ->label('Segundo Apellido')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
+                    ->label('Correo Electrónico')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('rude')
+                    ->label('RUDE')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('ci')
+                    ->label('CI')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('direction')
+                    ->label('Dirección')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('course')
+                    ->label('Curso')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('age')
+                    ->label('Edad')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('birth_date')
+                    ->label('Fecha de Nacimiento')
                     ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('institution_code')
+                    ->label('Código de Institución')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Creado el')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Actualizado el')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('deleted_at')
+                    ->label('Eliminado el')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\TrashedFilter::make(),
+                Tables\Filters\TrashedFilter::make()->label('Ver eliminados'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->label('Editar'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()->label('Eliminar seleccionados'),
+                    Tables\Actions\ForceDeleteBulkAction::make()->label('Eliminar permanentemente seleccionados'),
+                    Tables\Actions\RestoreBulkAction::make()->label('Restaurar seleccionados'),
                 ]),
             ]);
     }
@@ -131,7 +175,7 @@ class StudentResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            // Agregar relaciones si es necesario
         ];
     }
 

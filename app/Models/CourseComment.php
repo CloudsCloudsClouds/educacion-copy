@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class CourseComment extends Model
 {
     use HasFactory;
-    use SoftDeletes;
 
     public function StudentComments(): BelongsTo
     {

@@ -3,7 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CourseContentResource\Pages;
-use App\Filament\Resources\CourseContentResource\RelationManagers;
+use App\Models\Course;
 use App\Models\CourseContent;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -19,23 +19,32 @@ class CourseContentResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    // Añadir título en español para el recurso
+    protected static ?string $navigationLabel = 'Contenido del Curso';
+    protected static ?string $navigationGroup = 'Gestión de Cursos';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('title')
+                    ->label('Título')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Textarea::make('description')
+                    ->label('Descripción')
                     ->required()
                     ->columnSpanFull(),
                 Forms\Components\TextInput::make('content_type')
+                    ->label('Tipo de Contenido')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Select::make('course_id')
+                    ->label('Curso')
                     ->relationship('course', 'title')
                     ->searchable()
-                    ->required(),
+                    ->required()
+                    ->rules(['exists:courses,id']),
             ]);
     }
 
@@ -44,36 +53,42 @@ class CourseContentResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('title')
+                    ->label('Título')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('content_type')
+                    ->label('Tipo de Contenido')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('course.title')
+                    ->label('Curso')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Creado el')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Actualizado el')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('deleted_at')
+                    ->label('Eliminado el')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\TrashedFilter::make(),
+                Tables\Filters\TrashedFilter::make()->label('Ver eliminados'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->label('Editar'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()->label('Eliminar'),
+                    Tables\Actions\ForceDeleteBulkAction::make()->label('Eliminar permanentemente'),
+                    Tables\Actions\RestoreBulkAction::make()->label('Restaurar'),
                 ]),
             ]);
     }
@@ -81,7 +96,7 @@ class CourseContentResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            // Agregar relaciones si es necesario
         ];
     }
 
