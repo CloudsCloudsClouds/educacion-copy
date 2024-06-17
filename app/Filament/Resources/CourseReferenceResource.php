@@ -22,6 +22,7 @@ class CourseReferenceResource extends Resource
     // Añadir título en español para el recurso
     protected static ?string $navigationLabel = 'Referencias de Curso';
     protected static ?string $navigationGroup = 'Gestión de Cursos';
+    protected static ?string $label = 'Referencias del curso';
 
     public static function form(Form $form): Form
     {
@@ -39,7 +40,7 @@ class CourseReferenceResource extends Resource
                     ->rules(['string']),
                 Forms\Components\FileUpload::make('text')
                     ->label('Archivo')
-                    ->rules(['file']),
+                    ->directory('saved-files.sources'),
                 Forms\Components\Select::make('course_content_id')
                     ->label('Contenido del Curso')
                     ->required()
@@ -56,9 +57,7 @@ class CourseReferenceResource extends Resource
                 Tables\Columns\TextColumn::make('title')
                     ->label('Título')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('text')
-                    ->label('Archivo'),
-                Tables\Columns\TextColumn::make('course_content_id')
+                Tables\Columns\TextColumn::make('course_content.title')
                     ->label('Contenido del Curso')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')

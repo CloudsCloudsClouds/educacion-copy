@@ -23,6 +23,7 @@ class CourseCommentResource extends Resource
     // Agregar título en español para el recurso
     protected static ?string $navigationLabel = 'Comentarios del Curso';
     protected static ?string $navigationGroup = 'Gestión de Cursos';
+    protected static ?string $label = 'Comentarios del curso';
 
     public static function form(Form $form): Form
     {
@@ -49,11 +50,11 @@ class CourseCommentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('course_id')
+                Tables\Columns\TextColumn::make('course.title')
                     ->label('Curso')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('student_id')
+                Tables\Columns\TextColumn::make('student.ci')
                     ->label('Estudiante')
                     ->numeric()
                     ->sortable(),

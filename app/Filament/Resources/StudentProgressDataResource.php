@@ -24,6 +24,8 @@ class StudentProgressDataResource extends Resource
     protected static ?string $navigationLabel = 'Datos de Progreso de Estudiantes';
     protected static ?string $navigationGroup = 'Gestión de Estudiantes';
 
+    protected static ?string $label = 'Datos de Progreso de Estudiantes';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -52,10 +54,7 @@ class StudentProgressDataResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('student_progress_id')
-                    ->label('Progreso del Estudiante')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('content_id')
+                Tables\Columns\TextColumn::make('content.title')
                     ->label('Contenido')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')

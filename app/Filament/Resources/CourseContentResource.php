@@ -22,6 +22,7 @@ class CourseContentResource extends Resource
     // Añadir título en español para el recurso
     protected static ?string $navigationLabel = 'Contenido del Curso';
     protected static ?string $navigationGroup = 'Gestión de Cursos';
+    protected static ?string $label = 'Contenido del curso';
 
     public static function form(Form $form): Form
     {
@@ -35,10 +36,15 @@ class CourseContentResource extends Resource
                     ->label('Descripción')
                     ->required()
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('content_type')
+                Forms\Components\Select::make('content_type')
                     ->label('Tipo de Contenido')
                     ->required()
-                    ->maxLength(255),
+                    ->options([
+                        'resource' => 'Recurso',
+                        'class' => 'Clase',
+                        'Homework' => 'Tarea',
+                        'Activity' => 'Actividad'
+                    ]),
                 Forms\Components\Select::make('course_id')
                     ->label('Curso')
                     ->relationship('course', 'title')

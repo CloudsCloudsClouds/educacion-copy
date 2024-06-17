@@ -21,6 +21,7 @@ class CourseResource extends Resource
     // Añadir título en español para el recurso
     protected static ?string $navigationLabel = 'Cursos';
     protected static ?string $navigationGroup = 'Gestión de Cursos';
+    protected static ?string $label = 'Cursos';
 
     public static function form(Form $form): Form
     {
@@ -41,7 +42,7 @@ class CourseResource extends Resource
                     ->required()
                     ->columnSpanFull()
                     ->rules(['string']),
-                Forms\Components\TextInput::make('status')
+                Forms\Components\Select::make('status')
                     ->label('Estado')
                     ->required()
                     ->maxLength(255)
