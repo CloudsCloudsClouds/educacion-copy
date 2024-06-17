@@ -13,13 +13,13 @@ class StudentProgressData extends Model
     use HasFactory;
     use SoftDeletes;
 
-    public function StudentProgressBelongs(): BelongsTo
+    public function studentProgress()
     {
         return $this->belongsTo(StudentProgress::class);
     }
 
-    public function CourseResource(): HasOne
+    public function content()
     {
-        return $this->hasOne(CourseContent::class);
+        return $this->belongsTo(CourseContent::class, 'content_id');
     }
 }

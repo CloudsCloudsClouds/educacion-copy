@@ -13,18 +13,13 @@ class Course extends Model
     use HasFactory;
     use SoftDeletes;
 
-    public function CourseContents(): HasMany
+    public function contents()
     {
         return $this->hasMany(CourseContent::class);
     }
 
-    public function CourseComments(): HasMany
+    public function comments()
     {
         return $this->hasMany(CourseComment::class);
-    }
-
-    public function StudentProgress(): HasMany
-    {
-        return $this->hasMany(StudentProgress::class);
     }
 }

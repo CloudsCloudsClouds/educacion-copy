@@ -12,17 +12,17 @@ class Student extends Model
     use HasFactory;
     use SoftDeletes;
 
-    public function StudentProgresses(): HasMany
+    public function progress()
     {
         return $this->hasMany(StudentProgress::class);
     }
 
-    public function CourseComments(): HasMany
+    public function comments()
     {
         return $this->hasMany(CourseComment::class);
     }
 
-    public function Assessments(): HasMany
+    public function assessments()
     {
         return $this->hasMany(Assessment::class);
     }

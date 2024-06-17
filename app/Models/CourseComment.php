@@ -12,13 +12,13 @@ class CourseComment extends Model
 {
     use HasFactory;
 
-    public function StudentComments(): BelongsTo
-    {
-        return $this->belongsTo(Student::class);
-    }
-
-    public function CourseComment(): BelongsTo
+    public function course()
     {
         return $this->belongsTo(Course::class);
+    }
+
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
     }
 }

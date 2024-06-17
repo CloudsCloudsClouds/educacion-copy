@@ -14,17 +14,17 @@ class StudentProgress extends Model
     use HasFactory;
     use SoftDeletes;
 
-    public function Students(): BelongsTo
+    public function student()
     {
         return $this->belongsTo(Student::class);
     }
 
-    public function LastCourseReference(): HasOne
+    public function lastAccessedContent()
     {
-        return $this->hasOne(CourseContent::class);
+        return $this->belongsTo(CourseContent::class, 'last_accessed_content_id');
     }
 
-    public function StudentProgressData(): HasMany
+    public function progressData()
     {
         return $this->hasMany(StudentProgressData::class);
     }

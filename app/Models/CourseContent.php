@@ -15,28 +15,23 @@ class CourseContent extends Model
     use HasFactory;
     use SoftDeletes;
 
-    public function Assessments(): BelongsToMany
-    {
-        return $this->belongsToMany(Assessment::class);
-    }
-
-    public function StudentProgressess(): BelongsToMany
-    {
-        return $this->belongsToMany(StudentProgress::class);
-    }
-
-    public function StudenProgressessData(): BelongsToMany
-    {
-        return $this->belongsToMany(StudentProgressData::class);
-    }
-
-    public function Course(): BelongsTo
+    public function course()
     {
         return $this->belongsTo(Course::class);
     }
 
-    public function CourseReferences(): HasMany
+    public function references()
     {
         return $this->hasMany(CourseReference::class);
+    }
+
+    public function studentProgressData()
+    {
+        return $this->hasMany(StudentProgressData::class, 'content_id');
+    }
+
+    public function assessments()
+    {
+        return $this->hasMany(Assessment::class, 'content_id');
     }
 }

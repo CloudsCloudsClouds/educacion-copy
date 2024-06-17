@@ -13,7 +13,7 @@ class CourseReference extends Model
     use HasFactory;
     use SoftDeletes;
 
-    public function CourseContenReferences(): BelongsTo
+    public function courseContent()
     {
         return $this->belongsTo(CourseContent::class);
     }
